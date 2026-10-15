@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Skyrim Map IRL</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M12 2 20 20 12 16 4 20z'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="map" aria-label="World map"></div>
+
+    <!-- Atmosphere layers (never catch pointer events) -->
+    <div class="fx fx-fog" aria-hidden="true">
+      <div class="fog-layer fog-a"></div>
+      <div class="fog-layer fog-b"></div>
+      <div class="fog-layer fog-c"></div>
+    </div>
+    <div class="fx fx-vignette" aria-hidden="true"></div>
+    <div class="fx fx-frame" aria-hidden="true"></div>
+
+    <!-- Top-left: toasts (Skyrim "Location discovered" style) -->
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+
+    <!-- Top-center: search -->
+    <form id="search-form" class="search" autocomplete="off">
+      <input id="search-input" type="text" placeholder="Search the land…" spellcheck="false" aria-label="Search places" />
+      <div class="search__line"></div>
+    </form>
+
+    <!-- Left: Locations / Favorites -->
+    <aside id="panel-left" class="panel panel--left">
+      <header class="panel__tabs">
+        <button type="button" class="tab is-active" data-tab="results">Locations</button>
+        <button type="button" class="tab" data-tab="favorites">Favorites</button>
+      </header>
+      <div class="divider"></div>
+      <div class="panel__body">
+        <ul id="list-results" class="list" data-tab-panel="results"></ul>
+        <ul id="list-favorites" class="list is-hidden" data-tab-panel="favorites"></ul>
+      </div>
+    </aside>
+
+    <!-- Right: nearby categories -->
+    <aside id="panel-right" class="panel panel--right">
+      <header class="panel__title">Nearby</header>
+      <div class="divider"></div>
+      <ul id="list-categories" class="list list--categories"></ul>
+    </aside>
+
+    <!-- Selected place -->
+    <section id="detail" class="detail is-hidden" aria-live="polite">
+      <div class="detail__icon"></div>
+      <div class="detail__text">
+        <h2 class="detail__name"></h2>
+        <div class="detail__sub"></div>
+        <div class="detail__address"></div>
+        <div class="detail__rating"></div>
+      </div>
+      <button type="button" class="detail__close" data-action="deselect" aria-label="Close">×</button>
+    </section>
+
+    <!-- Bottom: key hints -->
+    <nav class="hints" aria-label="Keyboard shortcuts">
+      <button type="button" class="hint" data-action="focus-search"><kbd>/</kbd> Search</button>
+      <button type="button" class="hint" data-action="select-hovered"><kbd>E</kbd> Select</button>
+      <button type="button" class="hint" data-action="toggle-favorite"><kbd>F</kbd> Favorite</button>
+      <button type="button" class="hint" data-action="fast-travel"><kbd>T</kbd> Fast Travel</button>
+      <button type="button" class="hint" data-action="research"><kbd>R</kbd> Search Here</button>
+      <button type="button" class="hint" data-action="locate"><kbd>M</kbd> My Position</button>
+      <button type="button" class="hint" data-action="toggle-fog"><kbd>C</kbd> Clouds</button>
+      <button type="button" class="hint hint--mobile" data-action="toggle-panels"><kbd>P</kbd> Panels</button>
+    </nav>
+
+    <!-- Zoom -->
+    <div class="zoom">
+      <button type="button" data-action="zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" data-action="zoom-out" aria-label="Zoom out">−</button>
+    </div>
+
+    <!-- Fast travel confirm -->
+    <div id="modal" class="modal is-hidden" role="dialog" aria-modal="true">
+      <div class="modal__box">
+        <div class="divider"></div>
+        <p class="modal__text"></p>
+        <div class="modal__actions">
+          <button type="button" class="hint" data-action="modal-yes"><kbd>E</kbd> Yes</button>
+          <button type="button" class="hint" data-action="modal-no"><kbd>Esc</kbd> No</button>
+        </div>
+        <div class="divider"></div>
+      </div>
+    </div>
+
+    <!-- Blocking message (missing / rejected API key) -->
+    <div id="blocker" class="blocker is-hidden" role="alert">
+      <div class="blocker__box">
+        <div class="divider"></div>
+        <h1 class="blocker__title"></h1>
+        <p class="blocker__text"></p>
+        <div class="divider"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "skyrim-map-irl",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Google Maps dressed up as the Skyrim world map — nearby search and favorites.",
+  "scripts": {
+    "dev": "vite --port 5190 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
